@@ -5,10 +5,14 @@ package com.mast;
  */
 public class Perfume {
 	private String id; // Máximo 10 caracteres alfanuméricos
-	private final short MIN_ID = 0;
-	private final short MAX_ID = 10;
+	private static final short MIN_ID = 0;
+	private static final short MAX_ID = 10;
 	private String name; // Entre 3 y 50 caracteres
+	private static final short MIN_NAME = 3;
+	private static final short MAX_NAME = 50;
 	private String brand; // Entre 2 y 30 caracteres
+	private static final short MIN_BRAND = 2;
+	private static final short MAX_BRAND = 30;
 	private double price; // Positivo mayor a 0
 	private int stock; // Valor no negativo
 
@@ -23,6 +27,14 @@ public class Perfume {
 		return true;
 	}
 
+	private boolean validLetterOrDigit(String toValidate) {
+		for (char c: toValidate.toCharArray()) {
+			if (!Character.isLetterOrDigit(c))
+				return false;
+		}
+		return true;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -33,11 +45,7 @@ public class Perfume {
 	}
 
 	public boolean validId(String id) {
-		for (char c: id.toCharArray()) {
-			if (!Character.isLetterOrDigit(c))
-				return false;
-		}
-		return validLength(MIN_ID, MAX_ID, id);
+		return validLength(MIN_ID, MAX_ID, id) && validLetterOrDigit(id);
 	}
 
 	public String getName() {
@@ -45,7 +53,12 @@ public class Perfume {
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		if (validName(name))
+			this.name = name;
+	}
+
+	public boolean validName(String name) {
+		return validLength(MIN_NAME, MAX_NAME, name) && validLetterOrDigit(name);
 	}
 
 	public String getBrand() {
@@ -53,7 +66,12 @@ public class Perfume {
 	}
 
 	public void setBrand(String brand) {
-		this.brand = brand;
+		if (validBrand(brand))
+			this.brand = brand;
+	}
+
+	public boolean validBrand(String brand) {
+		return validLength(MIN_BRAND, MAX_BRAND, brand) && validLetterOrDigit(brand);
 	}
 
 	public double getPrice() {
@@ -61,7 +79,14 @@ public class Perfume {
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+		if (validPrice(price))
+			this.price = price;
+	}
+
+	public boolean validPrice(double price) {
+		if (price <= 0)
+			return false;
+		return true;
 	}
 
 	public int getStock() {
@@ -69,6 +94,13 @@ public class Perfume {
 	}
 
 	public void setStock(int stock) {
-		this.stock = stock;
+		if (validStock(stock))
+			this.stock = stock;
+	}
+
+	public boolean validStock(int stock) {
+		if (price < 0)
+			return false;
+		return true;
 	}
 }
