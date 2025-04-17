@@ -2,15 +2,11 @@ package com.mast;
 
 import java.util.Scanner;
 
-/**
- * Hello world!
- *
- */
 public class App {
 	private static final Scanner SCANNER = new Scanner(System.in);
 	private static final int MAX = 1000;
+	private static Perfume perfumes[] = new Perfume[MAX];
 	public static void main(String[] args) {
-		Perfume perfumes[] = new Perfume[MAX];
 		// Perfumes para probar
 		perfumes[472] = new Perfume("BCD234", "J'adore", "Dior", 290.000, 100);
 		perfumes[128] = new Perfume("EFG567", "Light Blue", "Dolce & Gabbana", 210.000, 50);
@@ -56,10 +52,8 @@ public class App {
 			}
 		}
 	}
-	
-	private static void insert(Perfume[] perfumes) {
-		System.out.println("Insertar Perfume");
-		Perfume p = new Perfume();
+
+	private static void askPerfume(Perfume p) {
 		String id, name, brand;
 		double price = 0;
 		int stock = 0;
@@ -67,7 +61,7 @@ public class App {
 		do {
 			System.out.println("Inserte el id del perfume");
 			id = SCANNER.nextLine();
-		} while (!p.validId(id));
+		} while (!p.validId(id) && searchById(id) == null); // ineficiente
 		do {
 			System.out.println("Inserte el nombre del perfume");
 			name = SCANNER.nextLine();
@@ -82,22 +76,36 @@ public class App {
 		p.setBrand(brand);
 		p.setPrice(price);
 		p.setStock(stock);
+	}
 
+	private static Perfume searchById(String id) {
 		for (int i = 0; i < MAX; i++) {
 			if (perfumes[i] == null)
-				perfumes[i] = p;
+				continue;
+			if (perfumes[i].getId().equals(id))
+				return perfumes[i];
 		}
+		return null;
+	}
+	
+	private static void insert(Perfume[] perfumes) {
+		System.out.println("Insertar Perfume");
+		for (int i = 0; i < MAX; i++) {
+			if (perfumes[i] == null) {
+				perfumes[i] = new Perfume();
+				askPerfume(perfumes[i]);
+				return;
+			}
+		}
+		System.out.println("Memoria llena");
 	}
 
 	private static void readById(Perfume[] perfumes) {
 		System.out.println("Ingrese el id a buscar");
 		String id = SCANNER.nextLine();
-		for (int i = 0; i < MAX; i++) {
-			if (perfumes[i] == null)
-				continue;
-			if (perfumes[i].getId().equals(id))
-				System.out.println(perfumes[i]);
-		}
+		Perfume p = searchById(id);
+		if (p != null)
+			System.out.println(p);
 	}
 
 	private static void readByName(Perfume[] perfumes) {
@@ -123,7 +131,14 @@ public class App {
 	}
 
 	private static void update(Perfume[] perfumes) {
-		System.out.println("Insertar Perfume");
+		System.out.println("Actualizar datos del Perfume");
+		System.out.println("Ingrese el id a buscar");
+		String id = SCANNER.nextLine();
+		for (int i = 0; i < MAX; i++) {
+			if (perfumes[i] == null)
+				continue;
+
+		}
 	}
 
 	private static void delete(Perfume[] perfumes) {
