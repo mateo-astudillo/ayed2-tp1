@@ -8,10 +8,24 @@ import java.util.Scanner;
  */
 public class App {
 	private static final Scanner SCANNER = new Scanner(System.in);
+	private static final int MAX = 1000;
 	public static void main(String[] args) {
-		final int MAX = 1000;
 		Perfume perfumes[] = new Perfume[MAX];
-		// Scanner scanner = new Scanner(System.in);
+		// Perfumes para probar
+		perfumes[472] = new Perfume("BCD234", "J'adore", "Dior", 290.000, 100);
+		perfumes[128] = new Perfume("EFG567", "Light Blue", "Dolce & Gabbana", 210.000, 50);
+		perfumes[819] = new Perfume("HIJ890", "Alien", "Thierry Mugler", 260.000, 60);
+		perfumes[305] = new Perfume("KLM123", "Santal 33", "Le Labo", 350.000, 50);
+		perfumes[674] = new Perfume("NOP456", "Miss Dior", "Dior", 280.000, 75);
+		perfumes[241] = new Perfume("QRS789", "Angel", "Thierry Mugler", 240.000, 100);
+		perfumes[953] = new Perfume("TUV012", "Si", "Giorgio Armani", 230.000, 30);
+		perfumes[387] = new Perfume("WXY345", "Mon Guerlain", "Guerlain", 270.000, 50);
+		perfumes[562] = new Perfume("ZAB678", "Olympea", "Paco Rabanne", 250.000, 80);
+		perfumes[719] = new Perfume("CDE901", "Chloé", "Chloé", 220.000, 75);
+		perfumes[146] = new Perfume("FGH234", "Daisy", "Marc Jacobs", 200.000, 50);
+		perfumes[883] = new Perfume("IJK567", "Libre", "Yves Saint Laurent", 300.000, 90);
+		perfumes[321] = new Perfume("LMN890", "My Way", "Giorgio Armani", 260.000, 60);
+		perfumes[598] = new Perfume("PQR123", "Bloom", "Gucci", 240.000, 100);
 
 		String option = "";
 		while (true) {
@@ -22,12 +36,18 @@ public class App {
 					insert(perfumes);
 					break;
 				case "2":
-					read(perfumes);
+					readById(perfumes);
 					break;
 				case "3":
-					update(perfumes);
+					readByName(perfumes);
 					break;
 				case "4":
+					readByBrand(perfumes);
+					break;
+				case "5":
+					update(perfumes);
+					break;
+				case "6":
 					delete(perfumes);
 					break;
 				default:
@@ -39,11 +59,67 @@ public class App {
 	
 	private static void insert(Perfume[] perfumes) {
 		System.out.println("Insertar Perfume");
+		Perfume p = new Perfume();
+		String id, name, brand;
+		double price = 0;
+		int stock = 0;
 
+		do {
+			System.out.println("Inserte el id del perfume");
+			id = SCANNER.nextLine();
+		} while (!p.validId(id));
+		do {
+			System.out.println("Inserte el nombre del perfume");
+			name = SCANNER.nextLine();
+		} while (!p.validName(name));
+		do {
+			System.out.println("Inserte la marca del perfume");
+			brand = SCANNER.nextLine();
+		} while (!p.validBrand(brand));
+
+		p.setId(id);
+		p.setName(name);
+		p.setBrand(brand);
+		p.setPrice(price);
+		p.setStock(stock);
+
+		for (int i = 0; i < MAX; i++) {
+			if (perfumes[i] == null)
+				perfumes[i] = p;
+		}
 	}
 
-	private static void read(Perfume[] perfumes) {
-		System.out.println("Buscar Perfume");
+	private static void readById(Perfume[] perfumes) {
+		System.out.println("Ingrese el id a buscar");
+		String id = SCANNER.nextLine();
+		for (int i = 0; i < MAX; i++) {
+			if (perfumes[i] == null)
+				continue;
+			if (perfumes[i].getId().equals(id))
+				System.out.println(perfumes[i]);
+		}
+	}
+
+	private static void readByName(Perfume[] perfumes) {
+		System.out.println("Ingrese el nombre a buscar");
+		String name = SCANNER.nextLine();
+		for (int i = 0; i < MAX; i++) {
+			if (perfumes[i] == null)
+				continue;
+			if (perfumes[i].getName().equals(name))
+				System.out.println(perfumes[i]);
+		}
+	}
+
+	private static void readByBrand(Perfume[] perfumes) {
+		System.out.println("Ingrese la marca a buscar");
+		String brand = SCANNER.nextLine();
+		for (int i = 0; i < MAX; i++) {
+			if (perfumes[i] == null)
+				continue;
+			if (perfumes[i].getBrand().equals(brand))
+				System.out.println(perfumes[i]);
+		}
 	}
 
 	private static void update(Perfume[] perfumes) {
@@ -57,10 +133,12 @@ public class App {
 	private static void menu() {
 		String options = """
 				1 Insertar Perfume
-				2 Buscar Perfume
-				3 Modificar Perfume
-				4 Eliminar Perfume
-				5 Salir
+				2 Buscar Perfume por id
+				3 Buscar Perfume por nombre
+				4 Buscar Perfume por marca
+				5 Modificar Perfume
+				6 Eliminar Perfume
+				7 Salir
 				""";
 		System.out.print(options);
 	}

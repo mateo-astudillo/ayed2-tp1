@@ -20,6 +20,14 @@ public class Perfume {
 
 	}
 
+	public Perfume(String id, String name, String brand, double price, int stock) {
+		this.id = id;
+		this.name = name;
+		this.brand = brand;
+		this.price = price;
+		this.stock = stock;
+	}
+
 	private boolean validLength(short min, short max, String toValidate) {
 		int l = toValidate.length();
 		if (l < min || l > max)
@@ -103,4 +111,13 @@ public class Perfume {
 			return false;
 		return true;
 	}
-}
+
+	@Override
+	public String toString() {
+		String p = "ID: " + this.id + "\n" +
+			"NOMBRE: " + this.name + "\n" +
+			"MARCA: " + this.brand + "\n" +
+			"PRECIO: $" + this.price + "\n" +
+			"STOCK: " + this.stock + "\n";
+		return p;
+	}}
