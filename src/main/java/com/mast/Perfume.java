@@ -107,7 +107,7 @@ public class Perfume {
 	}
 
 	public boolean validStock(int stock) {
-		if (price < 0)
+		if (stock < 0)
 			return false;
 		return true;
 	}

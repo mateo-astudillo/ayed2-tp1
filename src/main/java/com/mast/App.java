@@ -54,9 +54,9 @@ public class App {
 	}
 
 	private static void askPerfume(Perfume p) {
-		String id, name, brand;
+		String id, name, brand, aux;
 		double price = 0;
-		int stock = 0;
+		int stock = -1;
 
 		do {
 			System.out.println("Inserte el id del perfume");
@@ -70,6 +70,24 @@ public class App {
 			System.out.println("Inserte la marca del perfume");
 			brand = SCANNER.nextLine();
 		} while (!p.validBrand(brand));
+		do {
+			System.out.println("Inserte el precio del perfume");
+			aux = SCANNER.nextLine();
+			try {
+				price = Double.valueOf(aux);
+			} catch(Exception e) {
+				continue;
+			}
+		} while (!p.validPrice(price));
+		do {
+			System.out.println("Inserte el stock del perfume");
+			aux = SCANNER.nextLine();
+			try {
+				stock = Integer.valueOf(aux);
+			} catch(Exception e) {
+				continue;
+			}
+		} while (!p.validStock(stock));
 
 		p.setId(id);
 		p.setName(name);
@@ -134,11 +152,9 @@ public class App {
 		System.out.println("Actualizar datos del Perfume");
 		System.out.println("Ingrese el id a buscar");
 		String id = SCANNER.nextLine();
-		for (int i = 0; i < MAX; i++) {
-			if (perfumes[i] == null)
-				continue;
-
-		}
+		Perfume p = searchById(id);
+		if (p != null)
+			askPerfume(p);
 	}
 
 	private static void delete(Perfume[] perfumes) {
