@@ -1,4 +1,4 @@
-package com.mast;
+package com.ayed2;
 
 import java.util.Scanner;
 
